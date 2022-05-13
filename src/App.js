@@ -1,34 +1,48 @@
+import React from "react";
 import './App.css';
 import Form from "./components/Form";
-import Loading from "./components/Loading";
+import Loader from "./components/Loader";
 import {useState} from "react";
 import ThankYou from "./components/ThankYou";
+import ErrorsList from "./components/ErrorsList";
+import PostDataForm from "./components/API/api";
 
-function App() {
-  const [loading, setLoading] = useState(true);
-  const [isErrors, setIsErrors] = useState(false);
+const App = () => {
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
-  const getLoading = (load) => {
+  const changeLoading = (load) => {
     setLoading(load)
   }
 
-  const getErrors = (data) => {
-    if (data.errors == null) {
-      setIsErrors(true)
-    } else {
-      setIsErrors(false)
+  const postSubmit = (post) => {
+    setLoading(true)
+
+    let fetching = async () => {
+      let response = await PostDataForm.postData(post)
+
+      setLoading(false)
+      setErrors(response.errors)
     }
+    fetching()
   }
 
   return (
     <div className="App">
-      <Form getLoading={getLoading} getErrors={getErrors} className={[loading && !isErrors ? null : "form-hidden", "form-wrapper"].join(' ')}/>
-      {!loading
-        ? <Loading/>
+      <div className={[!loading && errors ? null : "form-hidden", "form-wrapper"].join(' ')}>
+        <h1>Ваш отзыв</h1>
+        (<Form changeLoading={changeLoading} postSubmit={postSubmit} className={"form-wrapper"}/>)
+      </div>
+      {loading
+        ? (<Loader/>)
         : null
       }
-      {isErrors
-        ? <ThankYou/>
+      {errors == null
+        ? (<ThankYou/>)
+        : null
+      }
+      {!loading && errors !== null
+        ? (<ErrorsList errors={errors}/>)
         : null
       }
     </div>

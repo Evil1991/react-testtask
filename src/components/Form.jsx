@@ -1,92 +1,57 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import StarRating from "./StarRating";
-import ErrorsList from "./ErrorsList";
+import MyInput from "./UI/input/MyInput";
 
-const Form = ({getLoading, getErrors, ...props}) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([])
 
-  useEffect(() => {
-    getLoading(loading)
-  }, [props, loading])
+const Form = ({postSubmit}) => {
+  const [post, setPost] = useState({name: '', email: '', comment: '', rating: 0});
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    setLoading(false)
+    postSubmit(post)
+    console.log(post)
+  };
 
-    fetch(`http://testtask.alto.codes/front-feedback.php`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        rating,
-        comment
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.statusText)
-        }
-        return response.json()
-      })
-      .then((data) => {
-        setErrors(data.errors)
-        setLoading(true)
-        getErrors(data)
-      })
-
-  }
-
-  const changeRating = (rating) => {
-    setRating(rating)
+  const changeName = (event) => {
+    setPost({...post, name: event.target.value})
   }
 
   const changeComment = (event) => {
-    setComment(event.target.value)
+    setPost({...post, comment: event.target.value})
+  }
+
+  const changeEmail = (event) => {
+    setPost({...post, email: event.target.value})
+  }
+
+  const changeRating = (number) => {
+    setPost({...post, rating: number})
   }
 
   return (
-    <div {...props}>
-      <h1>Ваш отзыв</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Введите имя:
-          <input
-            className="form-field"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <label>Введите Email:
-          <input
-            className="form-field"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <StarRating changeRating={changeRating}/>
-        <label>Напишите комментарий:
-          <textarea
-            className="form-field"
-            value={comment}
-            onChange={changeComment}/>
-        </label>
-        {errors !== null
-          ? <ErrorsList errors={errors}/>
-          : null
-        }
-        <input type="submit"/>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>Введите имя:
+        <MyInput
+          type="text"
+          value={post.name}
+          onChange={changeName}
+        />
+      </label>
+      <label>Введите Email:
+        <MyInput
+          type="email"
+          value={post.email}
+          onChange={changeEmail}
+        />
+      </label>
+      <StarRating changeRating={changeRating}/>
+      <label>Напишите комментарий:
+        <textarea
+          value={post.comment}
+          onChange={changeComment}/>
+      </label>
+      <button type="submit">Отправить</button>
+    </form>
   )
-};
-
+}
 export default Form;
