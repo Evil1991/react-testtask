@@ -62,7 +62,8 @@ label {
 }
 
 button[type="submit"],
-input[type="submit"] {
+input[type="submit"],
+button[type="button"] {
   background: #ec5990;
   color: white;
   text-transform: uppercase;
@@ -77,13 +78,15 @@ input[type="submit"] {
 }
 
 button[type="submit"]:hover,
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+button[type="button"]:hover {
   background: #bf1650;
 }
 
 button[type="submit"]:active,
 input[type="button"]:active,
-input[type="submit"]:active {
+input[type="submit"]:active,
+button[type="button"]:active {
   transition: 0.3s all;
   transform: translateY(3px);
   border: 1px solid transparent;
@@ -100,24 +103,14 @@ input[type="button"]:hover {
 
 button[type="submit"],
 input[type="button"],
-input[type="submit"] {
+input[type="submit"],
+button[type="button"] {
   -webkit-appearance: none;
 }
 
 .App {
   max-width: 600px;
   margin: 0 auto;
-}
-
-button[type="button"] {
-  display: block;
-  appearance: none;
-  background: #333;
-  color: white;
-  border: none;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: 4px;
 }
 
 hr {
@@ -161,8 +154,4 @@ textarea {
 }
 .rating-wrapper {
   display: flex;
-}
-.form-modal__input-star {
-  opacity: 0;
-  pointer-events: none;
 }

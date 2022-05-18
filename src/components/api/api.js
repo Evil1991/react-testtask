@@ -1,17 +1,12 @@
 export default class PostDataForm {
 
-  static async postData(post) {
+  static async postData(postData) {
     const response = await fetch(`http://testtask.alto.codes/front-feedback.php`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: post.name,
-        email: post.email,
-        rating: post.rating,
-        comment: post.comment
-      }),
+      body: JSON.stringify(postData),
     })
 
     if (!response.ok) {
