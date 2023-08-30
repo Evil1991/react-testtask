@@ -1,0 +1,25 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 33%;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+
+.successHeading {
+  font-weight: bold;
+  color: green;
+  text-decoration: dotted;
+}
+
+.submitBtn {
+  width: fit-content;
+  padding: .5rem 2rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+}

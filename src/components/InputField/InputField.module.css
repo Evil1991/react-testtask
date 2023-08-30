@@ -1,0 +1,15 @@
+.inputField {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputField label {
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+.inputField input {
+  padding: .5rem 1rem;
+  border-radius: 10px;
+}
